@@ -1,6 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axiosClient";
+import { defaultInspireItems } from "../data/defaultInspire.js";
+import { resolveMediaUrl } from "../utils/mediaUrl.js";
 import AppShell from "../components/layout/AppShell.jsx";
 
 const emptyProductForm = {
@@ -37,7 +39,21 @@ export default function Admin() {
   const [productForm, setProductForm] = useState(emptyProductForm);
   const [editingProduct, setEditingProduct] = useState(null);
   const [showProductModal, setShowProductModal] = useState(false);
+  const [inspireImages, setInspireImages] = useState([]);
+  const [uploadFiles, setUploadFiles] = useState(null);
+  const [uploadTitle, setUploadTitle] = useState("");
+  const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const uploadFormRef = useRef(null);
+
+  const tabTitle =
+    tab === "users" ? "Users & Credits" : tab === "products" ? "Subscription Products" : "Inspire Gallery";
+  const tabSubtitle =
+    tab === "users"
+      ? "Search users, view balances, and manage credits."
+      : tab === "products"
+        ? "Add and edit credit packages shown on the Subscription page."
+        : "Upload, preview, and delete images shown in the home page INSPIRE section.";
 
   const loadUsers = useCallback(async () => {
     const [statsRes, usersRes] = await Promise.all([
@@ -55,14 +71,21 @@ export default function Admin() {
     setPackages(data.packages);
   }, []);
 
+  const loadInspireImages = useCallback(async () => {
+    const { data } = await api.get("/admin/inspire-images");
+    setInspireImages(data.images);
+  }, []);
+
   const load = useCallback(async () => {
     setLoading(true);
     setError("");
     try {
       if (tab === "users") {
         await loadUsers();
-      } else {
+      } else if (tab === "products") {
         await loadPackages();
+      } else {
+        await loadInspireImages();
       }
     } catch (err) {
       if (err.response?.status === 401 || err.response?.status === 403) {
@@ -73,7 +96,7 @@ export default function Admin() {
     } finally {
       setLoading(false);
     }
-  }, [navigate, tab, loadUsers, loadPackages]);
+  }, [navigate, tab, loadUsers, loadPackages, loadInspireImages]);
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -195,6 +218,51 @@ export default function Admin() {
     }
   };
 
+  const uploadInspireImages = async (e) => {
+    e.preventDefault();
+    if (!uploadFiles?.length) {
+      setError("Choose at least one image to upload");
+      return;
+    }
+    setUploading(true);
+    setError("");
+    try {
+      const body = new FormData();
+      Array.from(uploadFiles).forEach((file) => body.append("files", file));
+      if (uploadTitle.trim()) body.append("title", uploadTitle.trim());
+      await api.post("/admin/inspire-images", body, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setUploadFiles(null);
+      setUploadTitle("");
+      uploadFormRef.current?.reset();
+      await loadInspireImages();
+    } catch (err) {
+      setError(err.response?.data?.message || "Could not upload images");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const deleteInspireImage = async (image) => {
+    if (!window.confirm("Delete this image from the INSPIRE gallery?")) return;
+    try {
+      await api.delete(`/admin/inspire-images/${image.id}`);
+      await loadInspireImages();
+    } catch (err) {
+      setError(err.response?.data?.message || "Could not delete image");
+    }
+  };
+
+  const toggleInspireImage = async (image) => {
+    try {
+      await api.patch(`/admin/inspire-images/${image.id}`, { active: !image.active });
+      await loadInspireImages();
+    } catch (err) {
+      setError(err.response?.data?.message || "Could not update image");
+    }
+  };
+
   return (
     <AppShell>
     <div className="admin-page oa-legacy-page">
@@ -202,12 +270,8 @@ export default function Admin() {
         <div className="container dashboard-hero-inner">
           <div>
             <p className="dashboard-eyebrow">Admin</p>
-            <h1>{tab === "users" ? "Users & Credits" : "Subscription Products"}</h1>
-            <p className="dashboard-sub">
-              {tab === "users"
-                ? "Search users, view balances, and manage credits."
-                : "Add and edit credit packages shown on the Subscription page."}
-            </p>
+            <h1>{tabTitle}</h1>
+            <p className="dashboard-sub">{tabSubtitle}</p>
           </div>
         </div>
       </div>
@@ -227,6 +291,13 @@ export default function Admin() {
             onClick={() => setTab("products")}
           >
             Products
+          </button>
+          <button
+            type="button"
+            className={`admin-tab ${tab === "gallery" ? "active" : ""}`}
+            onClick={() => setTab("gallery")}
+          >
+            Gallery
           </button>
         </div>
 
@@ -281,6 +352,32 @@ export default function Admin() {
             >
               Add product
             </button>
+          </div>
+        )}
+
+        {tab === "gallery" && (
+          <div className="card admin-gallery-upload">
+            <h3>Upload images</h3>
+            <p className="modal-sub">Images appear in the home page INSPIRE carousel.</p>
+            <form ref={uploadFormRef} onSubmit={uploadInspireImages}>
+              <label>Image files</label>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={(e) => setUploadFiles(e.target.files)}
+                required
+              />
+              <label>Title (optional, applies to all uploads)</label>
+              <input
+                value={uploadTitle}
+                onChange={(e) => setUploadTitle(e.target.value)}
+                placeholder="Portrait inspiration"
+              />
+              <button className="btn-primary" type="submit" disabled={uploading} style={{ width: "auto" }}>
+                {uploading ? "Uploading..." : "Upload"}
+              </button>
+            </form>
           </div>
         )}
 
@@ -420,6 +517,58 @@ export default function Admin() {
                 </tbody>
               </table>
             )}
+          </div>
+        )}
+
+        {tab === "gallery" && (
+          <div className="admin-gallery-section">
+            <div className="admin-toolbar" style={{ marginBottom: 12 }}>
+              <span className="admin-count">{inspireImages.length} images</span>
+            </div>
+            {loading ? (
+              <p>Loading...</p>
+            ) : (
+              <div className="admin-gallery-grid">
+                {inspireImages.map((image) => (
+                  <div key={image.id} className={`admin-gallery-card${image.active ? "" : " inactive"}`}>
+                    <img src={resolveMediaUrl(image.url)} alt={image.title || "Inspire"} loading="lazy" />
+                    <div className="admin-gallery-meta">
+                      <span>{image.title || "Untitled"}</span>
+                      <span className={`role-pill ${image.active ? "admin" : ""}`}>
+                        {image.active ? "Visible" : "Hidden"}
+                      </span>
+                    </div>
+                    <div className="admin-gallery-actions">
+                      <button type="button" className="btn-outline" onClick={() => toggleInspireImage(image)}>
+                        {image.active ? "Hide" : "Show"}
+                      </button>
+                      <button type="button" className="btn-outline" onClick={() => deleteInspireImage(image)}>
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))}
+                {!inspireImages.length && (
+                  <p className="admin-gallery-empty">No uploaded images yet. Upload images above to show them before the default gallery.</p>
+                )}
+              </div>
+            )}
+
+            <div className="admin-gallery-defaults">
+              <h3>Default images</h3>
+              <p className="modal-sub">These stock images always appear after your uploads on the home page.</p>
+              <div className="admin-gallery-grid">
+                {defaultInspireItems().map((image) => (
+                  <div key={image.id} className="admin-gallery-card">
+                    <img src={image.url} alt={image.title} loading="lazy" />
+                    <div className="admin-gallery-meta">
+                      <span>{image.title}</span>
+                      <span className="role-pill admin">Built-in</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

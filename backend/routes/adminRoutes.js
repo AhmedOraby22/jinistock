@@ -1,5 +1,8 @@
 const express = require("express");
 const crypto = require("crypto");
+const fs = require("fs");
+const path = require("path");
+const multer = require("multer");
 const { prisma } = require("../config/db");
 const { protect, adminOnly } = require("../middleware/auth");
 const { hashPassword } = require("../utils/password");
@@ -7,6 +10,32 @@ const { hashPassword } = require("../utils/password");
 const router = express.Router();
 
 router.use(protect, adminOnly);
+
+const inspireDir = path.join(__dirname, "..", "uploads", "inspire");
+if (!fs.existsSync(inspireDir)) fs.mkdirSync(inspireDir, { recursive: true });
+
+const inspireUpload = multer({
+  storage: multer.diskStorage({
+    destination: (_req, _file, cb) => cb(null, inspireDir),
+    filename: (_req, file, cb) => {
+      const ext = path.extname(file.originalname || "").toLowerCase() || ".jpg";
+      cb(null, `${Date.now()}-${crypto.randomBytes(6).toString("hex")}${ext}`);
+    },
+  }),
+  limits: { fileSize: 10 * 1024 * 1024 },
+  fileFilter: (_req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) cb(null, true);
+    else cb(new Error("Only image files are allowed"));
+  },
+});
+
+function inspirePublicUrl(filename) {
+  return `/uploads/inspire/${filename}`;
+}
+
+function inspireFilePath(filename) {
+  return path.join(inspireDir, filename);
+}
 
 function parseCredits(value, field) {
   if (value === undefined || value === null || value === "") return undefined;
@@ -372,6 +401,84 @@ router.delete("/packages/:id", async (req, res) => {
   });
 
   res.json({ message: "Product deactivated" });
+});
+
+// @route GET /api/admin/inspire-images
+router.get("/inspire-images", async (_req, res) => {
+  const images = await prisma.inspireImage.findMany({
+    orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
+  });
+  res.json({ images });
+});
+
+// @route POST /api/admin/inspire-images
+router.post("/inspire-images", inspireUpload.array("files", 20), async (req, res) => {
+  try {
+    const files = req.files || [];
+    if (!files.length) {
+      return res.status(400).json({ message: "Upload at least one image file" });
+    }
+
+    const title = req.body.title ? String(req.body.title).trim() : null;
+    const sortOrder = parseCredits(req.body.sortOrder, "sortOrder") ?? 0;
+
+    const images = await Promise.all(
+      files.map((file, index) =>
+        prisma.inspireImage.create({
+          data: {
+            url: inspirePublicUrl(file.filename),
+            filename: file.filename,
+            title,
+            sortOrder: sortOrder + index,
+          },
+        })
+      )
+    );
+
+    res.status(201).json({ images, message: `${images.length} image(s) uploaded` });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+// @route PATCH /api/admin/inspire-images/:id
+router.patch("/inspire-images/:id", async (req, res) => {
+  try {
+    const existing = await prisma.inspireImage.findUnique({ where: { id: req.params.id } });
+    if (!existing) return res.status(404).json({ message: "Image not found" });
+
+    const data = {};
+    if (req.body.title !== undefined) {
+      data.title = req.body.title ? String(req.body.title).trim() : null;
+    }
+    if (req.body.sortOrder !== undefined) {
+      data.sortOrder = parseCredits(req.body.sortOrder, "sortOrder") ?? 0;
+    }
+    if (req.body.active !== undefined) data.active = Boolean(req.body.active);
+
+    const image = await prisma.inspireImage.update({
+      where: { id: req.params.id },
+      data,
+    });
+
+    res.json({ image, message: "Image updated" });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+// @route DELETE /api/admin/inspire-images/:id
+router.delete("/inspire-images/:id", async (req, res) => {
+  const existing = await prisma.inspireImage.findUnique({ where: { id: req.params.id } });
+  if (!existing) return res.status(404).json({ message: "Image not found" });
+
+  if (existing.filename) {
+    const filePath = inspireFilePath(existing.filename);
+    if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+  }
+
+  await prisma.inspireImage.delete({ where: { id: req.params.id } });
+  res.json({ message: "Image deleted" });
 });
 
 module.exports = router;

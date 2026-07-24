@@ -9,6 +9,7 @@ const generateRoutes = require("./routes/generateRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const creditRoutes = require("./routes/creditRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const homeRoutes = require("./routes/homeRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
 const falProxyRoutes = require("./routes/falProxyRoutes");
 const runwayProxyRoutes = require("./routes/runwayProxyRoutes");
@@ -32,6 +33,7 @@ app.use("/api/generate", generateRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/credits", creditRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/home", homeRoutes);
 
 // Uploads (JWT): /api/upload and Odoo-compatible /api/upload_file
 app.use("/api/upload", uploadRoutes);

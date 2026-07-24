@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import api from "../api/axiosClient";
+import { defaultInspireItems } from "../data/defaultInspire.js";
+import { resolveMediaUrl } from "../utils/mediaUrl.js";
 import AppShell from "../components/layout/AppShell.jsx";
 
 const TOOLS = [
@@ -88,17 +91,6 @@ const FEATURES = [
   },
 ];
 
-const INSPIRE = [
-  "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1488161628813-04466f872be2?w=400&q=80&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80&auto=format&fit=crop",
-];
-
 function ToolBar() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(null);
@@ -156,6 +148,23 @@ function ToolBar() {
 
 export default function Home() {
   const scroller = useRef(null);
+  const [inspireImages, setInspireImages] = useState(defaultInspireItems);
+
+  useEffect(() => {
+    api
+      .get("/home/inspire")
+      .then(({ data }) => {
+        const uploaded = (data.images || []).map((img) => ({
+          id: img.id,
+          url: resolveMediaUrl(img.url),
+          title: img.title,
+        }));
+        setInspireImages([...uploaded, ...defaultInspireItems()]);
+      })
+      .catch(() => {
+        setInspireImages(defaultInspireItems());
+      });
+  }, []);
 
   const scrollInspire = (dir) => {
     const el = scroller.current;
@@ -195,11 +204,16 @@ export default function Home() {
             ‹
           </button>
           <div className="oa-inspire-track" ref={scroller}>
-            {INSPIRE.map((src, i) => (
-              <div key={src} className="oa-inspire-item">
-                <img src={src} alt={`Inspiration ${i + 1}`} loading="lazy" />
-              </div>
-            ))}
+            {inspireImages.map((item, i) => {
+              const src = typeof item === "string" ? item : item.url;
+              const key = typeof item === "string" ? src : item.id;
+              const alt = typeof item === "string" ? `Inspiration ${i + 1}` : item.title || `Inspiration ${i + 1}`;
+              return (
+                <div key={key} className="oa-inspire-item">
+                  <img src={src} alt={alt} loading="lazy" />
+                </div>
+              );
+            })}
           </div>
           <button
             type="button"
