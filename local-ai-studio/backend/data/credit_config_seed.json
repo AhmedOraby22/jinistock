@@ -1,0 +1,715 @@
+{
+  "daily_trial_image_credits": 50,
+  "daily_trial_video_credits": 50,
+  "default_image_deduction": 1,
+  "default_video_deduction": 1,
+  "deductions": [
+    {
+      "generation_type": "runway",
+      "image_credits": 0,
+      "video_credits": 25,
+      "duration": 5,
+      "description": "Runway video generation - 5 seconds"
+    },
+    {
+      "generation_type": "runway",
+      "image_credits": 0,
+      "video_credits": 50,
+      "duration": 10,
+      "description": "Runway video generation - 10 seconds"
+    },
+    {
+      "generation_type": "flux_pro",
+      "image_credits": 18,
+      "video_credits": 0,
+      "duration": null,
+      "description": "Flux Pro image generation"
+    },
+    {
+      "generation_type": "flux_pro_alt",
+      "image_credits": 25,
+      "video_credits": 0,
+      "duration": null,
+      "description": "Flux Pro alternative response format"
+    },
+    {
+      "generation_type": "flux_realism",
+      "image_credits": 1,
+      "video_credits": 0,
+      "duration": null,
+      "description": "Flux Realism image generation"
+    },
+    {
+      "generation_type": "kling_master",
+      "image_credits": 0,
+      "video_credits": 100,
+      "duration": 5,
+      "description": "Kling Master video - 5 seconds"
+    },
+    {
+      "generation_type": "kling_master",
+      "image_credits": 0,
+      "video_credits": 200,
+      "duration": 10,
+      "description": "Kling Master video - 10 seconds"
+    },
+    {
+      "generation_type": "seed_dance",
+      "image_credits": 0,
+      "video_credits": 47,
+      "duration": 5,
+      "description": "Seed Dance video - 5 seconds"
+    },
+    {
+      "generation_type": "seed_dance",
+      "image_credits": 0,
+      "video_credits": 94,
+      "duration": 10,
+      "description": "Seed Dance video - 10 seconds"
+    },
+    {
+      "generation_type": "kling_elements",
+      "image_credits": 0,
+      "video_credits": 20,
+      "duration": 5,
+      "description": "Kling Elements video - 5 seconds"
+    },
+    {
+      "generation_type": "kling_elements",
+      "image_credits": 0,
+      "video_credits": 40,
+      "duration": 10,
+      "description": "Kling Elements video - 10 seconds"
+    },
+    {
+      "generation_type": "kontext_max_multi",
+      "image_credits": 50,
+      "video_credits": 0,
+      "duration": null,
+      "description": "Kontext Max Multi image generation"
+    },
+    {
+      "generation_type": "ideogram_reframe",
+      "image_credits": 83,
+      "video_credits": 0,
+      "duration": null,
+      "description": "Ideogram Reframe image generation"
+    },
+    {
+      "generation_type": "upscale",
+      "image_credits": 107,
+      "video_credits": 0,
+      "duration": null,
+      "description": "Image upscaling"
+    },
+    {
+      "generation_type": "control_lora_depth",
+      "image_credits": 17,
+      "video_credits": 0,
+      "duration": null,
+      "description": "Control Lora Depth image generation"
+    },
+    {
+      "generation_type": "chatterbox_hd",
+      "image_credits": 0,
+      "video_credits": 8,
+      "duration": null,
+      "description": "Chatterbox HD audio generation"
+    },
+    {
+      "generation_type": "runway_upscale",
+      "image_credits": 0,
+      "video_credits": 20,
+      "duration": null,
+      "description": "Runway video upscaling"
+    },
+    {
+      "generation_type": "gen4_turbo",
+      "image_credits": 0,
+      "video_credits": 18,
+      "duration": 5,
+      "description": "Gen4 Turbo video - 5 seconds"
+    },
+    {
+      "generation_type": "gen4_turbo",
+      "image_credits": 0,
+      "video_credits": 38,
+      "duration": 10,
+      "description": "Gen4 Turbo video - 10 seconds"
+    },
+    {
+      "generation_type": "gen4_5",
+      "image_credits": 0,
+      "video_credits": 18,
+      "duration": 5,
+      "description": "Gen4.5 video - 5 seconds"
+    },
+    {
+      "generation_type": "gen4_5",
+      "image_credits": 0,
+      "video_credits": 38,
+      "duration": 10,
+      "description": "Gen4.5 video - 10 seconds"
+    },
+    {
+      "generation_type": "veo3",
+      "image_credits": 0,
+      "video_credits": 228,
+      "duration": null,
+      "description": "Veo3 video generation"
+    },
+    {
+      "generation_type": "veo3_no_audio",
+      "image_credits": 0,
+      "video_credits": 130,
+      "duration": null,
+      "description": "Veo3 video generation - No Audio"
+    },
+    {
+      "generation_type": "topaz_upscale",
+      "image_credits": 0,
+      "video_credits": 1,
+      "duration": null,
+      "description": "Topaz video upscaling"
+    },
+    {
+      "generation_type": "gpt_image",
+      "image_credits": 9,
+      "video_credits": 0,
+      "duration": null,
+      "description": "GPT Image generation"
+    },
+    {
+      "generation_type": "imagen4_ultra",
+      "image_credits": 30,
+      "video_credits": 0,
+      "duration": null,
+      "description": "Imagen4 Ultra image generation"
+    },
+    {
+      "generation_type": "gen4_aleph",
+      "image_credits": 0,
+      "video_credits": 20,
+      "duration": null,
+      "description": "Gen4 Aleph video generation"
+    },
+    {
+      "generation_type": "act_two",
+      "image_credits": 0,
+      "video_credits": 72,
+      "duration": null,
+      "description": "Act Two video generation"
+    },
+    {
+      "generation_type": "gemini_edit",
+      "image_credits": 25,
+      "video_credits": 0,
+      "duration": null,
+      "description": "Gemini Edit image generation"
+    },
+    {
+      "generation_type": "fal_start_to_end",
+      "image_credits": 0,
+      "video_credits": 85,
+      "duration": 4,
+      "description": "Fal Start to End video - 4 seconds"
+    },
+    {
+      "generation_type": "fal_start_to_end",
+      "image_credits": 0,
+      "video_credits": 171,
+      "duration": 8,
+      "description": "Fal Start to End video - 8 seconds"
+    },
+    {
+      "generation_type": "sora2_pro",
+      "image_credits": 0,
+      "video_credits": 25,
+      "duration": 5,
+      "description": "Sora2 Pro video - 5 seconds"
+    },
+    {
+      "generation_type": "sora2_pro",
+      "image_credits": 0,
+      "video_credits": 50,
+      "duration": 10,
+      "description": "Sora2 Pro video - 10 seconds"
+    },
+    {
+      "generation_type": "sora2_pro_720p_4s",
+      "image_credits": 0,
+      "video_credits": 88,
+      "duration": null,
+      "description": "Sora2 Pro - 720p - 4 seconds"
+    },
+    {
+      "generation_type": "sora2_pro_720p_8s",
+      "image_credits": 0,
+      "video_credits": 171,
+      "duration": null,
+      "description": "Sora2 Pro - 720p - 8 seconds"
+    },
+    {
+      "generation_type": "sora2_pro_720p_12s",
+      "image_credits": 0,
+      "video_credits": 275,
+      "duration": null,
+      "description": "Sora2 Pro - 720p - 12 seconds"
+    },
+    {
+      "generation_type": "sora2_pro_1024p_4s",
+      "image_credits": 0,
+      "video_credits": 143,
+      "duration": null,
+      "description": "Sora2 Pro - 1024p - 4 seconds"
+    },
+    {
+      "generation_type": "sora2_pro_1024p_8s",
+      "image_credits": 0,
+      "video_credits": 285,
+      "duration": null,
+      "description": "Sora2 Pro - 1024p - 8 seconds"
+    },
+    {
+      "generation_type": "sora2_pro_1024p_12s",
+      "image_credits": 0,
+      "video_credits": 428,
+      "duration": null,
+      "description": "Sora2 Pro - 1024p - 12 seconds"
+    },
+    {
+      "generation_type": "sora2_pro_1080p_4s",
+      "image_credits": 0,
+      "video_credits": 200,
+      "duration": null,
+      "description": "Sora2 Pro - 1080p - 4 seconds"
+    },
+    {
+      "generation_type": "sora2_pro_1080p_8s",
+      "image_credits": 0,
+      "video_credits": 400,
+      "duration": null,
+      "description": "Sora2 Pro - 1080p - 8 seconds"
+    },
+    {
+      "generation_type": "sora2_pro_1080p_12s",
+      "image_credits": 0,
+      "video_credits": 800,
+      "duration": null,
+      "description": "Sora2 Pro - 1080p - 12 seconds"
+    },
+    {
+      "generation_type": "seedance_pro",
+      "image_credits": 0,
+      "video_credits": 18,
+      "duration": 5,
+      "description": "Seedance Pro video - 5 seconds"
+    },
+    {
+      "generation_type": "seedance_pro",
+      "image_credits": 0,
+      "video_credits": 36,
+      "duration": 10,
+      "description": "Seedance Pro video - 10 seconds"
+    },
+    {
+      "generation_type": "seedream_image",
+      "image_credits": 17,
+      "video_credits": 0,
+      "duration": null,
+      "description": "Seedream image generation"
+    },
+    {
+      "generation_type": "hunyuan3d",
+      "image_credits": 7,
+      "video_credits": 0,
+      "duration": null,
+      "description": "Hunyuan3D image generation"
+    },
+    {
+      "generation_type": "kontext",
+      "image_credits": 1,
+      "video_credits": 0,
+      "duration": null,
+      "description": "Kontext image generation"
+    },
+    {
+      "generation_type": "kling_lipsync",
+      "image_credits": 0,
+      "video_credits": 14,
+      "duration": null,
+      "description": "Kling Lipsync video generation"
+    },
+    {
+      "generation_type": "heygen_v3_lipsync_precision",
+      "image_credits": 0,
+      "video_credits": 60,
+      "duration": 8,
+      "description": "HeyGen V3 Lip-sync Precision - 8 second tier"
+    },
+    {
+      "generation_type": "hailuo02",
+      "image_credits": 0,
+      "video_credits": 1,
+      "duration": null,
+      "description": "Hailuo02 video generation"
+    },
+    {
+      "generation_type": "hailuo_23",
+      "image_credits": 0,
+      "video_credits": 14,
+      "duration": null,
+      "description": "Hailuo 2.3 image-to-video generation"
+    },
+    {
+      "generation_type": "kling_v26_pro",
+      "image_credits": 0,
+      "video_credits": 50,
+      "duration": 5,
+      "description": "Kling V2.6 Pro image-to-video - 5 seconds"
+    },
+    {
+      "generation_type": "kling_v26_pro",
+      "image_credits": 0,
+      "video_credits": 100,
+      "duration": 10,
+      "description": "Kling V2.6 Pro image-to-video - 10 seconds"
+    },
+    {
+      "generation_type": "kling_video_edit_fast",
+      "image_credits": 0,
+      "video_credits": 60,
+      "duration": 5,
+      "description": "Kling Video Edit Fast - 5 seconds (videos 6-10 seconds)"
+    },
+    {
+      "generation_type": "kling_video_edit_fast",
+      "image_credits": 0,
+      "video_credits": 120,
+      "duration": 10,
+      "description": "Kling Video Edit Fast - 10 seconds (videos 11-20 seconds)"
+    },
+    {
+      "generation_type": "mmaudio_v2",
+      "image_credits": 0,
+      "video_credits": 2,
+      "duration": 2,
+      "description": "FAL MMAudio V2 video-to-video - 2 seconds"
+    },
+    {
+      "generation_type": "mmaudio_v2",
+      "image_credits": 0,
+      "video_credits": 3,
+      "duration": 3,
+      "description": "FAL MMAudio V2 video-to-video - 3 seconds"
+    },
+    {
+      "generation_type": "mmaudio_v2",
+      "image_credits": 0,
+      "video_credits": 4,
+      "duration": 4,
+      "description": "FAL MMAudio V2 video-to-video - 4 seconds"
+    },
+    {
+      "generation_type": "mmaudio_v2",
+      "image_credits": 0,
+      "video_credits": 5,
+      "duration": 5,
+      "description": "FAL MMAudio V2 video-to-video - 5 seconds"
+    },
+    {
+      "generation_type": "mmaudio_v2",
+      "image_credits": 0,
+      "video_credits": 6,
+      "duration": 6,
+      "description": "FAL MMAudio V2 video-to-video - 6 seconds"
+    },
+    {
+      "generation_type": "mmaudio_v2",
+      "image_credits": 0,
+      "video_credits": 7,
+      "duration": 7,
+      "description": "FAL MMAudio V2 video-to-video - 7 seconds"
+    },
+    {
+      "generation_type": "google_nano_banana_pro_t2i",
+      "image_credits": 9,
+      "video_credits": 0,
+      "duration": null,
+      "description": "Google Nano Banana Pro Text-to-Image generation"
+    },
+    {
+      "generation_type": "vidu_q2_turbo",
+      "image_credits": 0,
+      "video_credits": 12,
+      "duration": 4,
+      "description": "Vidu Q2 Turbo - 720p free - 4 seconds"
+    },
+    {
+      "generation_type": "vidu_q2_turbo",
+      "image_credits": 0,
+      "video_credits": 23,
+      "duration": 8,
+      "description": "Vidu Q2 Turbo - 720p free - 8 seconds"
+    },
+    {
+      "generation_type": "vidu_q2_turbo",
+      "image_credits": 0,
+      "video_credits": 50,
+      "duration": 4,
+      "description": "Vidu Q2 Turbo - 1080p - 4 seconds"
+    },
+    {
+      "generation_type": "vidu_q2_turbo",
+      "image_credits": 0,
+      "video_credits": 100,
+      "duration": 8,
+      "description": "Vidu Q2 Turbo - 1080p - 8 seconds"
+    },
+    {
+      "generation_type": "veo31_fast_t2v",
+      "image_credits": 0,
+      "video_credits": 86,
+      "duration": 8,
+      "description": "Google Veo 3.1 Fast Text-to-Video - 8 seconds with audio"
+    },
+    {
+      "generation_type": "veo31_fast_t2v",
+      "image_credits": 0,
+      "video_credits": 44,
+      "duration": 8,
+      "description": "Google Veo 3.1 Fast Text-to-Video - 8 seconds without audio"
+    },
+    {
+      "generation_type": "veo31_fast_t2v",
+      "image_credits": 0,
+      "video_credits": 65,
+      "duration": 6,
+      "description": "Google Veo 3.1 Fast Text-to-Video - 6 seconds with audio"
+    },
+    {
+      "generation_type": "veo31_fast_t2v",
+      "image_credits": 0,
+      "video_credits": 44,
+      "duration": 6,
+      "description": "Google Veo 3.1 Fast Text-to-Video - 6 seconds without audio"
+    },
+    {
+      "generation_type": "veo31_fast_t2v",
+      "image_credits": 0,
+      "video_credits": 44,
+      "duration": 4,
+      "description": "Google Veo 3.1 Fast Text-to-Video - 4 seconds with audio"
+    },
+    {
+      "generation_type": "veo31_fast_t2v",
+      "image_credits": 0,
+      "video_credits": 30,
+      "duration": 4,
+      "description": "Google Veo 3.1 Fast Text-to-Video - 4 seconds without audio"
+    },
+    {
+      "generation_type": "google_veo31_fast_text_to_video_720p_8s",
+      "image_credits": 0,
+      "video_credits": 30,
+      "duration": 8,
+      "description": "Google Veo 3.1 Fast Text-to-Video (WaveSpeed) - 8s at 720p"
+    },
+    {
+      "generation_type": "google_veo31_fast_text_to_video_1080p_8s",
+      "image_credits": 0,
+      "video_credits": 50,
+      "duration": 8,
+      "description": "Google Veo 3.1 Fast Text-to-Video (WaveSpeed) - 8s at 1080p"
+    },
+    {
+      "generation_type": "google_veo31_fast_text_to_video_4k_8s",
+      "image_credits": 0,
+      "video_credits": 50,
+      "duration": 8,
+      "description": "Google Veo 3.1 Fast Text-to-Video (WaveSpeed) - 8s at 4k"
+    },
+    {
+      "generation_type": "veo31_lite_start_end_720p_8s",
+      "image_credits": 0,
+      "video_credits": 30,
+      "duration": 8,
+      "description": "Google Veo 3.1 Lite Start-End-to-Video - 8s at 720p"
+    },
+    {
+      "generation_type": "veo31_lite_start_end_1080p_8s",
+      "image_credits": 0,
+      "video_credits": 50,
+      "duration": 8,
+      "description": "Google Veo 3.1 Lite Start-End-to-Video - 8s at 1080p"
+    },
+    {
+      "generation_type": "prompt_optimizer",
+      "image_credits": 1,
+      "video_credits": 0,
+      "duration": null,
+      "description": "WaveSpeed Prompt Optimizer - Text to Prompt"
+    },
+    {
+      "generation_type": "eleven_v3",
+      "image_credits": 0,
+      "video_credits": 12,
+      "duration": null,
+      "description": "WaveSpeed ElevenLabs Eleven-v3 - Text to Audio"
+    },
+    {
+      "generation_type": "grok_video_extend",
+      "image_credits": 0,
+      "video_credits": 23,
+      "duration": 6,
+      "description": "Grok Imagine Video Extend - 6 seconds"
+    },
+    {
+      "generation_type": "grok_video_extend",
+      "image_credits": 0,
+      "video_credits": 40,
+      "duration": 10,
+      "description": "Grok Imagine Video Extend - 10 seconds"
+    },
+    {
+      "generation_type": "imagen3",
+      "image_credits": 9,
+      "video_credits": 0,
+      "duration": null,
+      "description": "Imagen 3 image generation"
+    },
+    {
+      "generation_type": "sync_lipsync",
+      "image_credits": 0,
+      "video_credits": 20,
+      "duration": null,
+      "description": "Sync Lipsync audio to video"
+    },
+    {
+      "generation_type": "hunyuan_avatar",
+      "image_credits": 0,
+      "video_credits": 50,
+      "duration": null,
+      "description": "Hunyuan Avatar audio to video"
+    },
+    {
+      "generation_type": "qwen_multi_angles",
+      "image_credits": 16,
+      "video_credits": 0,
+      "duration": null,
+      "description": "Qwen image edit multiple angles"
+    },
+    {
+      "generation_type": "vidu_q2_turbo_720p_4s",
+      "image_credits": 0,
+      "video_credits": 14,
+      "duration": null,
+      "description": "Vidu Q2 Turbo key pricing - 720p 4s"
+    },
+    {
+      "generation_type": "vidu_q2_turbo_720p_8s",
+      "image_credits": 0,
+      "video_credits": 28,
+      "duration": null,
+      "description": "Vidu Q2 Turbo key pricing - 720p 8s"
+    },
+    {
+      "generation_type": "vidu_q2_turbo_1080p_4s",
+      "image_credits": 0,
+      "video_credits": 30,
+      "duration": null,
+      "description": "Vidu Q2 Turbo key pricing - 1080p 4s"
+    },
+    {
+      "generation_type": "vidu_q2_turbo_1080p_8s",
+      "image_credits": 0,
+      "video_credits": 60,
+      "duration": null,
+      "description": "Vidu Q2 Turbo key pricing - 1080p 8s"
+    },
+    {
+      "generation_type": "veo31_fast_i2v_8s_audio",
+      "image_credits": 0,
+      "video_credits": 80,
+      "duration": null,
+      "description": "Veo 3.1 Fast I2V - 8s with audio"
+    },
+    {
+      "generation_type": "veo31_fast_i2v_8s_no_audio",
+      "image_credits": 0,
+      "video_credits": 40,
+      "duration": null,
+      "description": "Veo 3.1 Fast I2V - 8s without audio"
+    },
+    {
+      "generation_type": "veo31_fast_i2v_6s_audio",
+      "image_credits": 0,
+      "video_credits": 60,
+      "duration": null,
+      "description": "Veo 3.1 Fast I2V - 6s with audio"
+    },
+    {
+      "generation_type": "veo31_fast_i2v_6s_no_audio",
+      "image_credits": 0,
+      "video_credits": 60,
+      "duration": null,
+      "description": "Veo 3.1 Fast I2V - 6s without audio"
+    },
+    {
+      "generation_type": "veo31_fast_i2v_4s_audio",
+      "image_credits": 0,
+      "video_credits": 40,
+      "duration": null,
+      "description": "Veo 3.1 Fast I2V - 4s with audio"
+    },
+    {
+      "generation_type": "veo31_fast_i2v_4s_no_audio",
+      "image_credits": 0,
+      "video_credits": 20,
+      "duration": null,
+      "description": "Veo 3.1 Fast I2V - 4s without audio"
+    },
+    {
+      "generation_type": "veo31_fast_t2v_8s_audio",
+      "image_credits": 0,
+      "video_credits": 80,
+      "duration": null,
+      "description": "Veo 3.1 Fast T2V key pricing - 8s with audio"
+    },
+    {
+      "generation_type": "veo31_fast_t2v_8s_no_audio",
+      "image_credits": 0,
+      "video_credits": 65,
+      "duration": null,
+      "description": "Veo 3.1 Fast T2V key pricing - 8s without audio"
+    },
+    {
+      "generation_type": "veo31_fast_t2v_6s_audio",
+      "image_credits": 0,
+      "video_credits": 70,
+      "duration": null,
+      "description": "Veo 3.1 Fast T2V key pricing - 6s with audio"
+    },
+    {
+      "generation_type": "veo31_fast_t2v_6s_no_audio",
+      "image_credits": 0,
+      "video_credits": 50,
+      "duration": null,
+      "description": "Veo 3.1 Fast T2V key pricing - 6s without audio"
+    },
+    {
+      "generation_type": "veo31_fast_t2v_4s_audio",
+      "image_credits": 0,
+      "video_credits": 50,
+      "duration": null,
+      "description": "Veo 3.1 Fast T2V key pricing - 4s with audio"
+    },
+    {
+      "generation_type": "veo31_fast_t2v_4s_no_audio",
+      "image_credits": 0,
+      "video_credits": 40,
+      "duration": null,
+      "description": "Veo 3.1 Fast T2V key pricing - 4s without audio"
+    }
+  ]
+}

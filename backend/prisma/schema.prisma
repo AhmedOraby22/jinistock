@@ -1,0 +1,136 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  user
+  admin
+}
+
+enum TransactionStatus {
+  pending
+  paid
+  failed
+  refunded
+}
+
+enum PaymentMethod {
+  card
+  wallet
+}
+
+enum GenerationStatus {
+  queued
+  processing
+  completed
+  failed
+}
+
+model User {
+  id                   String    @id @default(cuid())
+  name                 String
+  email                String    @unique
+  password             String
+  imageCredits         Int       @default(9)
+  videoCredits         Int       @default(42)
+  maxImageCredits      Int       @default(0)
+  maxVideoCredits      Int       @default(0)
+  creditsUsed          Int       @default(0)
+  role                 Role      @default(user)
+  legacyOdooUserId     Int?      @unique
+  needsPasswordReset   Boolean   @default(false)
+  passwordResetToken   String?
+  passwordResetExpires DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  transactions Transaction[]
+  generations  Generation[]
+
+  @@index([legacyOdooUserId])
+}
+
+model Transaction {
+  id             String            @id @default(cuid())
+  userId         String
+  user           User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  paymobOrderId  String?
+  amountCents    Int
+  currency       String            @default("EGP")
+  creditsPackage Json
+  status         TransactionStatus @default(pending)
+  paymentMethod  PaymentMethod     @default(card)
+  rawCallback    Json?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  @@index([userId])
+}
+
+model Generation {
+  id             String           @id @default(cuid())
+  userId         String
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  generationType String
+  model          String
+  prompt         String?
+  inputFileUrl   String?
+  outputUrl      String?
+  creditsSpent   Int
+  status         GenerationStatus @default(queued)
+  errorMessage   String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([userId])
+}
+
+model CreditConfig {
+  id                      String           @id @default(cuid())
+  name                    String           @default("Default Credit Configuration")
+  active                  Boolean          @default(true)
+  dailyTrialImageCredits  Int              @default(9)  @map("daily_trial_image_credits")
+  dailyTrialVideoCredits  Int              @default(42) @map("daily_trial_video_credits")
+  defaultImageDeduction   Int              @default(1)  @map("default_image_deduction")
+  defaultVideoDeduction   Int              @default(1)  @map("default_video_deduction")
+  createdAt               DateTime         @default(now())
+  updatedAt               DateTime         @updatedAt
+  deductions              CreditDeduction[]
+
+  @@index([active])
+}
+
+model CreditDeduction {
+  id             String       @id @default(cuid())
+  configId       String
+  config         CreditConfig @relation(fields: [configId], references: [id], onDelete: Cascade)
+  generationType String       @map("generation_type")
+  imageCredits   Int          @default(0) @map("image_credits")
+  videoCredits   Int          @default(0) @map("video_credits")
+  duration       Int?
+  description    String?
+
+  @@index([configId, generationType])
+}
+
+model CreditPackage {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  name         String
+  description  String?
+  priceCents   Int      @map("price_cents")
+  imageCredits Int      @map("image_credits")
+  videoCredits Int      @map("video_credits")
+  active       Boolean  @default(true)
+  highlight    Boolean  @default(false)
+  sortOrder    Int      @default(0) @map("sort_order")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index([active, sortOrder])
+}
