@@ -119,7 +119,7 @@ function Icon({ name }) {
   }
 }
 
-export default function Sidebar() {
+export default function Sidebar({ open = false, onNavigate }) {
   const { pathname, search } = useLocation();
   const full = pathname + search;
 
@@ -129,14 +129,16 @@ export default function Sidebar() {
     return pathname === path || pathname.startsWith(path + "/");
   };
 
+  const navProps = { onClick: onNavigate };
+
   return (
-    <aside className="oa-sidebar">
+    <aside className={`oa-sidebar${open ? " open" : ""}`}>
       <div className="oa-sidebar-brand">
         <BrandLogo />
       </div>
 
       <nav className="oa-sidebar-nav">
-        <Link to="/" className={`oa-nav-item ${pathname === "/" ? "active" : ""}`}>
+        <Link to="/" className={`oa-nav-item ${pathname === "/" ? "active" : ""}`} {...navProps}>
           <Icon name="home" />
           <span>Home</span>
         </Link>
@@ -152,6 +154,7 @@ export default function Sidebar() {
                 key={item.to}
                 to={item.to}
                 className={`oa-create-btn ${isActive(item.to) ? "active" : ""}`}
+                {...navProps}
               >
                 <Icon name={item.icon} />
                 <span>{item.label}</span>
@@ -166,11 +169,11 @@ export default function Sidebar() {
 
         <div className="oa-nav-section">
           <div className="oa-nav-label">Resources</div>
-          <Link to="/" className="oa-nav-item subtle">
+          <Link to="/" className="oa-nav-item subtle" {...navProps}>
             <Icon name="book" />
             <span>Tutorials</span>
           </Link>
-          <Link to="/#inspire" className="oa-nav-item subtle">
+          <Link to="/#inspire" className="oa-nav-item subtle" {...navProps}>
             <Icon name="prompt" />
             <span>Prompts</span>
           </Link>
@@ -183,6 +186,7 @@ export default function Sidebar() {
               key={item.label}
               to={item.to}
               className={`oa-nav-item subtle ${isActive(item.to) || full.includes(item.to) ? "active-soft" : ""}`}
+              {...navProps}
             >
               <Icon name={item.icon} />
               <span>{item.label}</span>

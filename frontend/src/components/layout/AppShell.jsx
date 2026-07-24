@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "./Sidebar.jsx";
 import TopBar from "./TopBar.jsx";
 
 export default function AppShell({ children, showPromo = true }) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
     <div className="oa-shell">
       {showPromo && (
@@ -16,10 +19,21 @@ export default function AppShell({ children, showPromo = true }) {
           </Link>
         </div>
       )}
-      <div className="oa-body">
-        <Sidebar />
+      <div className={`oa-body${sidebarOpen ? " sidebar-open" : ""}`}>
+        {sidebarOpen && (
+          <button
+            type="button"
+            className="oa-sidebar-backdrop"
+            aria-label="Close menu"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+        <Sidebar open={sidebarOpen} onNavigate={() => setSidebarOpen(false)} />
         <div className="oa-main">
-          <TopBar />
+          <TopBar
+            sidebarOpen={sidebarOpen}
+            onMenuToggle={() => setSidebarOpen((open) => !open)}
+          />
           <div className="oa-content">{children}</div>
         </div>
       </div>
